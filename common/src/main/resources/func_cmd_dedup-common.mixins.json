@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "net.myitian.func_cmd_dedup.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "mixins": [
+    "CommandFunctionMixin",
+    "ReloadableResourceManagerImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
