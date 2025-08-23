@@ -3,14 +3,10 @@ package net.myitian.func_cmd_dedup.mixin;
 import net.minecraft.registry.CombinedDynamicRegistries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.ServerDynamicRegistryType;
-import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourcePack;
-import net.minecraft.resource.ResourceReload;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.DataPackContents;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.util.Unit;
 import net.myitian.func_cmd_dedup.FunctionCommandDeduplicator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 @Mixin(DataPackContents.class)
-public class ReloadableResourceManagerImplMixin {
+public class DataPackContentsMixin {
     @Inject(method = "reload", at = @At("HEAD"))
     private static void beforeReload(
             ResourceManager resourceManager,
