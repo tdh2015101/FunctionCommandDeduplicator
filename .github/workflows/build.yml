@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         java: [21]
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
@@ -22,31 +22,37 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
-          distribution: "microsoft"
+          distribution: "graalvm"
       - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew build
+        run: chmod +x ./gradlew && free -m
+      - name: Build and Cache
+        uses: burrunan/gradle-cache-action@v3
+        with:
+          save-generated-gradle-jars: false
+          remote-build-cache-proxy-enabled: false
+          gradle-distribution-sha-256-sum-warning: false
+          arguments: build --parallel
+          gradle-version: wrapper
       - name: capture build artifacts - common
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
+        #if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts - Common
           path: common/build/libs/
       - name: capture build artifacts - fabric
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
+        #if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts - Fabric
           path: fabric/build/libs/
       - name: capture build artifacts - forge
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
+        #if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts - Forge
           path: forge/build/libs/
       - name: capture build artifacts - neoforge
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
+        #if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts - NeoForge
